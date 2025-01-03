@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../controllers/home_controller.dart';
+import '../controllers/teacher_manage_courses_controller.dart';
 
-class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
+class TeacherManageCoursesView extends GetView<TeacherManageCoursesController> {
+  const TeacherManageCoursesView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomeView'),
+        title: const Text('TeacherManageCoursesView'),
         centerTitle: true,
       ),
       body: const Center(
         child: Text(
-          'HomeView is working',
+          'TeacherManageCoursesView is working',
           style: TextStyle(fontSize: 20),
         ),
       ),
