@@ -1,22 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:myskadika/app/modules/navigation_bar/views/navigation_bar_view.dart';
 import 'package:myskadika/app/modules/teacher_home/views/teacher_home_view.dart';
 import '../controllers/login_controller.dart';
 
+const users = {
+  'agus': '12345',
+  'hunter@gmail.com': 'hunter',
+};
+
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
+  Duration get loginTime => const Duration(milliseconds: 2250);
+
+  Future<String?> _authUser(LoginData data) {
+    debugPrint('Name: ${data.name}, Password: ${data.password}');
+    return Future.delayed(loginTime).then((_) {
+      if (!users.containsKey(data.name)) {
+        return 'User not exists';
+      }
+      if (users[data.name] != data.password) {
+        return 'Password does not match';
+      }
+      return null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
       title: 'My Skadika',
       logo: const AssetImage('lib/assets/logo.png'),
-      onLogin: (_) => Future(() => null),
+      onLogin: _authUser,
       onSignup: (_) => Future(() => null),
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => TeacherHomeView(),
+          builder: (context) => NavigationBarView(),
         ));
       },
       onRecoverPassword: (_) => Future(() => null),
@@ -34,21 +54,26 @@ class LoginView extends GetView<LoginController> {
             'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
         recoverPasswordSuccess: 'Password rescued successfully',
       ),
+      userValidator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Username cannot be empty';
+        }
+        return null; // Tidak ada validasi format email
+      },
       theme: LoginTheme(
-       primaryColor: Colors.green,
-        accentColor: Colors.orangeAccent, // Warna aksen untuk tombol
-        pageColorLight: Colors.white, // Warna background untuk mode terang
+        primaryColor: Colors.green,
+        accentColor: Colors.orangeAccent,
+        pageColorLight: Colors.white,
         pageColorDark: const Color.fromARGB(255, 213, 245, 215),
         cardTheme: CardTheme(
-          color: Colors.grey[200], // Warna latar kartu
+          color: Colors.grey[200],
           elevation: 5,
         ),
         buttonTheme: LoginButtonTheme(
-          backgroundColor: Colors.green, // Warna latar belakang tombol
-          splashColor: Colors.lightGreenAccent, // Warna efek splash
-          highlightColor: Colors.greenAccent, // Warna efek highlight
-          
-          elevation: 5.0, // Tinggi bayangan tombol
+          backgroundColor: Colors.green,
+          splashColor: Colors.lightGreenAccent,
+          highlightColor: Colors.greenAccent,
+          elevation: 5.0,
         ),
       ),
     );
