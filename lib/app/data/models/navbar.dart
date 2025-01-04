@@ -52,10 +52,10 @@ class _NavBarState extends State<NavBar> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 navItem(IconlyBroken.home, 0, "Beranda"),
-                navItem(IconlyBroken.paper, 1, "Laporan"),
-             
-                navItem(IconlyBroken.times_quare, 2, "Pengingat"),
-                navItem(IconlyLight.profile, 3, "Profil"),
+                navItem(IconlyBroken.paper, 1, "Siswa"),
+                navItem(IconlyBroken.folder, 2, "Mapel"),
+                navItem(IconlyLight.category, 3, "Ujian"),
+                navItem(IconlyLight.profile, 4, "Profil"),
               ],
             ),
           ),

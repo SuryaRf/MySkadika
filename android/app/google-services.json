@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "220115528344",
+    "project_id": "myskadika",
+    "storage_bucket": "myskadika.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220115528344:android:75a8685f84b6e9a0cfbeed",
+        "android_client_info": {
+          "package_name": "com.myskadika.myskadika"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGfi1GJXZjT4dy4gcgGzYzX8BqsU1RZPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
