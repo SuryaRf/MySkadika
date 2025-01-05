@@ -1,6 +1,11 @@
 import 'package:get/get.dart';
+
+import '../modules/detail_mapel/bindings/detail_mapel_binding.dart';
+import '../modules/detail_mapel/views/detail_mapel_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/mapel/bindings/mapel_binding.dart';
+import '../modules/mapel/views/mapel_view.dart';
 import '../modules/navigation_bar/bindings/navigation_bar_binding.dart';
 import '../modules/navigation_bar/views/navigation_bar_view.dart';
 import '../modules/student_home/bindings/student_home_binding.dart';
@@ -24,7 +29,6 @@ class AppPages {
   static const INITIAL = Routes.LOGIN;
 
   static final routes = [
-  
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginView(),
@@ -64,6 +68,16 @@ class AppPages {
       name: _Paths.TEACHER_PROFILE,
       page: () => const TeacherProfileView(),
       binding: TeacherProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.MAPEL,
+      page: () => const MapelView(),
+      binding: MapelBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_MAPEL,
+      page: () => const DetailMapelView(),
+      binding: DetailMapelBinding(),
     ),
   ];
 }

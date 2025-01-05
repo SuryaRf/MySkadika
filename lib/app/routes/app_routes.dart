@@ -12,6 +12,8 @@ abstract class Routes {
   static const TEACHER_MANAGE_COURSES = _Paths.TEACHER_MANAGE_COURSES;
   static const TEACHER_MANAGE_EXAMS = _Paths.TEACHER_MANAGE_EXAMS;
   static const TEACHER_PROFILE = _Paths.TEACHER_PROFILE;
+  static const MAPEL = _Paths.MAPEL;
+  static const DETAIL_MAPEL = _Paths.DETAIL_MAPEL;
 }
 
 abstract class _Paths {
@@ -25,4 +27,6 @@ abstract class _Paths {
   static const TEACHER_MANAGE_COURSES = '/teacher-manage-courses';
   static const TEACHER_MANAGE_EXAMS = '/teacher-manage-exams';
   static const TEACHER_PROFILE = '/teacher-profile';
+  static const MAPEL = '/mapel';
+  static const DETAIL_MAPEL = '/detail-mapel';
 }
