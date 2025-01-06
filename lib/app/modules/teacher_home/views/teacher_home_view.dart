@@ -154,112 +154,134 @@ class TeacherHomeView extends GetView<TeacherHomeController> {
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
-                   Obx(() {
-          if (controller.isLoading.value) {
-            return Center(child: CircularProgressIndicator());
-          }
-           return RefreshIndicator(
-            onRefresh: controller.refreshData,
-            child: SizedBox(
-              height: 430,
-              child: GridView.builder(
-                itemCount: controller.mapel.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 20,
-                ),
-                itemBuilder: (context, index) {
-                  final flower = controller.mapel[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetailMapelView(),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              blurRadius: 5,
-                              spreadRadius: 2,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              child: Image.asset(
-                                'lib/assets/mapel.jpg',
-                                height: 100,
-                                fit: BoxFit.cover,
+              SizedBox(
+                height: 20,
+              ),
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                return RefreshIndicator(
+                  onRefresh: controller.refreshData,
+                  child: SizedBox(
+                    height: 430,
+                    child: GridView.builder(
+                      itemCount: controller.mapel.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 20,
+                        childAspectRatio:
+                            0.75, // Mengatur rasio untuk proporsi lebih baik
+                      ),
+                      itemBuilder: (context, index) {
+                        final mapel = controller.mapel[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailMapelView(),
                               ),
-                            ),
-                            const SizedBox(height: 15),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    blurRadius: 5,
+                                    spreadRadius: 2,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Expanded(
-                                    child: Text(
-                                      flower.name,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
+                                  // Gambar Mapel
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                    child: Image.asset(
+                                      'lib/assets/mapel.jpg',
+                                      height: 100,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    controller.mapel[index].name,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.grey.shade600,
+                                  const SizedBox(height: 15),
+                                  // Nama Mapel dan Informasi
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          mapel.name,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          maxLines:
+                                              2, // Membatasi hingga 2 baris
+                                          overflow: TextOverflow
+                                              .ellipsis, // Mengganti overflow dengan ellipsis
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          controller.mapel[index].name,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.grey.shade600,
+                                          ),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const Spacer(), // Memberikan ruang agar posisi tombol tetap di bawah
+                                  // Tombol Arah
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: 10, bottom: 10),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                        width: 50,
+                                        height: 30,
+                                        decoration: BoxDecoration(
+                                          color: Colors.green.withOpacity(0.8),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: const Icon(
+                                          Icons.arrow_right_rounded,
+                                          color: Colors.white,
+                                          size: 24,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 7),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Container(
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  color: Colors.green.withOpacity(0.8),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: const Icon(
-                                  Icons.arrow_right_rounded,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
-          );
-                   })
+                  ),
+                );
+              })
             ],
           ),
         ),
