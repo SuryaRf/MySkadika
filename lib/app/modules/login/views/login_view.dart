@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myskadika/app/modules/navigation_bar/views/navigation_bar_view.dart';
+
+import '../../navigation_bar_student/views/navigation_bar_student_view.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -21,6 +23,19 @@ class LoginView extends GetView<LoginController> {
       if (querySnapshot.docs.isEmpty) {
         return 'Username atau password salah.';
       }
+
+      // Simpan data role pengguna untuk navigasi
+      final userDoc = querySnapshot.docs.first;
+      final role = userDoc['role']; // Ambil role dari dokumen
+
+      if (role == 'teacher') {
+        Get.to(() => NavigationBarView());
+      } else if (role == 'student') {
+        Get.to(() => NavigationBarStudentView());
+      } else {
+        return 'Role tidak dikenali.';
+      }
+
       return null; // Login berhasil
     } catch (e) {
       return 'Terjadi kesalahan: $e';
@@ -34,11 +49,7 @@ class LoginView extends GetView<LoginController> {
       logo: const AssetImage('lib/assets/logo.png'),
       onLogin: _authUser,
       onSignup: (_) => Future(() => null),
-      onSubmitAnimationCompleted: () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => NavigationBarView(),
-        ));
-      },
+      onSubmitAnimationCompleted: () {},
       onRecoverPassword: (_) => Future(() => null),
       messages: LoginMessages(
         userHint: 'Username',

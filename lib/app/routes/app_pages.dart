@@ -6,6 +6,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/navigation_bar/bindings/navigation_bar_binding.dart';
 import '../modules/navigation_bar/views/navigation_bar_view.dart';
+import '../modules/navigation_bar_student/bindings/navigation_bar_student_binding.dart';
+import '../modules/navigation_bar_student/views/navigation_bar_student_view.dart';
 import '../modules/student_home/bindings/student_home_binding.dart';
 import '../modules/student_home/views/student_home_view.dart';
 import '../modules/teacher_home/bindings/teacher_home_binding.dart';
@@ -71,6 +73,11 @@ class AppPages {
       name: _Paths.DETAIL_MAPEL,
       page: () => const DetailMapelView(),
       binding: DetailMapelBinding(),
+    ),
+    GetPage(
+      name: _Paths.NAVIGATION_BAR_STUDENT,
+      page: () => const NavigationBarStudentView(),
+      binding: NavigationBarStudentBinding(),
     ),
   ];
 }
