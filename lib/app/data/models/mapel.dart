@@ -8,6 +8,8 @@ class Mapel {
   final String kode;
   final List<String> daftarSiswa;
   final String namaGuru;
+  final String isi;
+
 
   Mapel({
     required this.id,
@@ -17,6 +19,7 @@ class Mapel {
     required this.kode,
     required this.daftarSiswa,
     required this.namaGuru,
+    required this.isi,
   });
 
   factory Mapel.fromFirestore(DocumentSnapshot doc) {
@@ -29,6 +32,7 @@ class Mapel {
       kode: data['kode'] ?? '',
       daftarSiswa: List<String>.from(data['daftarSiswa'] ?? []),
       namaGuru: data['namaGuru'] ?? '',
+      isi: data['isi'] ?? '',
     );
   }
 
@@ -40,6 +44,7 @@ class Mapel {
       'kode': kode,
       'daftarSiswa': daftarSiswa,
       'namaGuru': namaGuru,
+      'isi': isi,
     };
   }
 }
