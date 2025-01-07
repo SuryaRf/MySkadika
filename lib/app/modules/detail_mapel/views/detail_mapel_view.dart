@@ -5,18 +5,32 @@ import 'package:get/get.dart';
 import '../controllers/detail_mapel_controller.dart';
 
 class DetailMapelView extends GetView<DetailMapelController> {
-  const DetailMapelView({super.key});
-  @override
+  final dynamic mapel; // Sesuaikan tipe data jika sudah pasti
+  const DetailMapelView({Key? key, required this.mapel}) : super(key: key);
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('DetailMapelView'),
-        centerTitle: true,
+        title: Text(mapel.name),
+        backgroundColor: Colors.green,
       ),
-      body: const Center(
-        child: Text(
-          'DetailMapelView is working',
-          style: TextStyle(fontSize: 20),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              mapel.name,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              mapel.description ?? 'No description available.',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            // Tambahkan detail lain sesuai kebutuhan
+          ],
         ),
       ),
     );

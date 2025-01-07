@@ -71,7 +71,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_MAPEL,
-      page: () => const DetailMapelView(),
+      page: () => const DetailMapelView(mapel: null,),
       binding: DetailMapelBinding(),
     ),
     GetPage(

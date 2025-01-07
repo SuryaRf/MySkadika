@@ -172,8 +172,7 @@ class TeacherHomeView extends GetView<TeacherHomeController> {
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 20,
-                        childAspectRatio:
-                            0.75, // Mengatur rasio untuk proporsi lebih baik
+                        childAspectRatio: 0.75,
                       ),
                       itemBuilder: (context, index) {
                         final mapel = controller.mapel[index];
@@ -182,7 +181,8 @@ class TeacherHomeView extends GetView<TeacherHomeController> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetailMapelView(),
+                                builder: (context) =>
+                                    DetailMapelView(mapel: mapel),
                               ),
                             );
                           },
