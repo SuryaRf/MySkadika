@@ -18,6 +18,7 @@ class _AddNewMapelState extends State<AddNewMapel> {
   final _kodeController = TextEditingController();
   final _namaGuruController = TextEditingController();
   final _isiController = TextEditingController();
+  final _jamController = TextEditingController();
 
   final List<String> _daftarSiswa = []; // Kosongkan atau isi default sesuai kebutuhan
 
@@ -31,7 +32,7 @@ class _AddNewMapelState extends State<AddNewMapel> {
           id: '', // ID akan dibuat oleh Firestore
           name: _nameController.text.trim(),
           description: _descriptionController.text.trim(),
-          jadwal: {'jadwal': _jadwalController.text.trim()},
+          jadwal: {'hari': _jadwalController.text.trim(), 'jam': _jamController.text.trim()},
           kode: _kodeController.text.trim(),
           daftarSiswa: _daftarSiswa,
           namaGuru: _namaGuruController.text.trim(),
@@ -96,7 +97,11 @@ class _AddNewMapelState extends State<AddNewMapel> {
               ),
               TextFormField(
                 controller: _jadwalController,
-                decoration: const InputDecoration(labelText: 'Jadwal'),
+                decoration: const InputDecoration(labelText: 'Hari'),
+              ),
+              TextFormField(
+                controller: _jamController,
+                decoration: const InputDecoration(labelText: 'Jam'),
               ),
               TextFormField(
                 controller: _kodeController,
