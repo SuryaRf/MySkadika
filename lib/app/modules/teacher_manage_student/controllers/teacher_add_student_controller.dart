@@ -42,7 +42,7 @@ class TeacherAddStudentController extends GetxController {
       Get.snackbar(
         'Berhasil',
         'Data siswa berhasil ditambahkan',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
