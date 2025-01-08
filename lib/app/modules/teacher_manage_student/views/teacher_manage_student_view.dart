@@ -26,7 +26,10 @@ class TeacherManageStudentView extends GetView<TeacherManageStudentController> {
         backgroundColor: Colors.green,
       ),
 
-      floatingActionButton: FloatingActionButton(onPressed: () => Get.to(TeacherAddStudent())),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        child: Icon(Icons.add, color: Colors.white),
+        onPressed: () => Get.to(TeacherAddStudent())),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());

@@ -13,7 +13,8 @@ class DetailMapelView extends GetView<DetailMapelController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(mapel.name),
+        title: Text(mapel.name, style: TextStyle(color: Colors.white),),
+
         backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(
