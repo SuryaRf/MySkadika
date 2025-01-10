@@ -16,6 +16,8 @@ class TeacherProfileView extends GetView<TeacherProfileController> {
       appBar: AppBar(
         title: const Text('Profil Guru'),
         centerTitle: true,
+        backgroundColor: Colors.indigo, // Warna AppBar
+        elevation: 0,
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -24,59 +26,144 @@ class TeacherProfileView extends GetView<TeacherProfileController> {
           );
         }
 
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
+        return SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Profil Guru',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              Row(
+              // Header dengan gambar dan nama
+              Stack(
                 children: [
-                  const Text('Nama:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 8),
-                  Text(controller.name.value),
+                  Container(
+                    height: 180,
+                    decoration: const BoxDecoration(
+                      color: Colors.indigo,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 40,
+                    left: MediaQuery.of(context).size.width / 2 - 50,
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      backgroundImage: const AssetImage(
+                          'assets/avatar_placeholder.png'), // Gambar placeholder
+                    ),
+                  ),
+                  Positioned(
+                    top: 140,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            controller.name.value,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'NIP: ${controller.nip.value}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Text('NIP:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 8),
-                  Text(controller.nip.value),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Text('Jenis Kelamin:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 8),
-                  Text(controller.gender.value),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Text('Alamat:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 8),
-                  Text(controller.address.value),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  const Text('Nomor HP:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(width: 8),
-                  Text(controller.phoneNumber.value),
-                ],
+              const SizedBox(height: 20),
+
+              // Informasi detail profil
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    _buildInfoCard(
+                      icon: Icons.person,
+                      title: 'Jenis Kelamin',
+                      value: controller.gender.value,
+                    ),
+                    const SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.home,
+                      title: 'Alamat',
+                      value: controller.address.value,
+                    ),
+                    const SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.phone,
+                      title: 'Nomor HP',
+                      value: controller.phoneNumber.value,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         );
       }),
+    );
+  }
+
+  // Widget untuk kartu informasi
+  Widget _buildInfoCard({
+    required IconData icon,
+    required String title,
+    required String value,
+  }) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.indigo.shade100,
+              child: Icon(
+                icon,
+                color: Colors.indigo,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
