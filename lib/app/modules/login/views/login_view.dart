@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:myskadika/app/modules/navigation_bar/views/navigation_bar_view.dart';
 
 import '../../navigation_bar_student/views/navigation_bar_student_view.dart';
@@ -27,6 +28,11 @@ class LoginView extends GetView<LoginController> {
       // Simpan data role pengguna untuk navigasi
       final userDoc = querySnapshot.docs.first;
       final role = userDoc['role']; // Ambil role dari dokumen
+      final nip = userDoc['nip'];
+
+          // Simpan NIP ke GetStorage
+    final storage = GetStorage();
+    storage.write('nip', nip);
 
       if (role == 'teacher') {
         Get.to(() => NavigationBarView());

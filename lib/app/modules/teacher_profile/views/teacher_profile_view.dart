@@ -9,11 +9,8 @@ class TeacherProfileView extends GetView<TeacherProfileController> {
   Widget build(BuildContext context) {
     final controller = Get.put(TeacherProfileController());
 
-    // Simulasi NIP dari login
-    final nipAccount = '123456'; // NIP diambil dari koleksi account setelah login
-
     // Panggil fungsi untuk mengambil data profil
-    controller.fetchProfile(nipAccount);
+    controller.fetchProfile();
 
     return Scaffold(
       appBar: AppBar(
