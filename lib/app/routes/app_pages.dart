@@ -61,7 +61,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.TEACHER_MANAGE_EXAMS,
-      page: () => const TeacherManageExamsView(),
+      page: () =>  TeacherManageExamsView(),
       binding: TeacherManageExamsBinding(),
     ),
     GetPage(

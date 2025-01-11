@@ -38,7 +38,7 @@ class _NavigationBarViewState extends State<NavigationBarView> {
       NavModel(page: const TeacherHomeView(), navKey: homeNavKey),
       NavModel(page:  TeacherManageStudentView(), navKey: manageStudentNavKey),
       NavModel(page: const TeacherManageCoursesView(), navKey: manageCoursesNavKey),
-      NavModel(page: const TeacherManageExamsView(), navKey: manageExamsNavKey),
+      NavModel(page:  TeacherManageExamsView(), navKey: manageExamsNavKey),
       NavModel(page: const TeacherProfileView(), navKey: profileNavKey),
     ];
   }
