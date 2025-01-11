@@ -25,15 +25,16 @@ class LoginView extends GetView<LoginController> {
         return 'Username atau password salah.';
       }
 
-      // Simpan data role pengguna untuk navigasi
+      // Ambil dokumen pengguna pertama yang ditemukan
       final userDoc = querySnapshot.docs.first;
       final role = userDoc['role']; // Ambil role dari dokumen
-      final nip = userDoc['nip'];
+      final nipOrNis = role == 'teacher' ? userDoc['nip'] : userDoc['nis']; // Ambil NIP/NIS sesuai role
 
-          // Simpan NIP ke GetStorage
-    final storage = GetStorage();
-    storage.write('nip', nip);
+      // Simpan NIP atau NIS ke GetStorage
+      final storage = GetStorage();
+      storage.write('identifier', nipOrNis); // Gunakan kunci umum untuk penyimpanan (identifier)
 
+      // Navigasi berdasarkan role
       if (role == 'teacher') {
         Get.to(() => NavigationBarView());
       } else if (role == 'student') {
