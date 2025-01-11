@@ -14,7 +14,9 @@ class TeacherProfileView extends GetView<TeacherProfileController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil Guru'),
+        title: const Text('Profil Guru', style: TextStyle(
+          color: Colors.white
+        ),),
         centerTitle: true,
         backgroundColor: Colors.green, // Warna AppBar
         elevation: 0,
@@ -49,7 +51,7 @@ class TeacherProfileView extends GetView<TeacherProfileController> {
                       radius: 50,
                       backgroundColor: Colors.white,
                       backgroundImage: const AssetImage(
-                          'lib/assets/logo.png'), // Gambar placeholder
+                          'lib/assets/logo.png',), // Gambar placeholder
                     ),
                   ),
                   Positioned(
