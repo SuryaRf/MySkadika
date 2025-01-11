@@ -16,7 +16,7 @@ class TeacherProfileView extends GetView<TeacherProfileController> {
       appBar: AppBar(
         title: const Text('Profil Guru'),
         centerTitle: true,
-        backgroundColor: Colors.indigo, // Warna AppBar
+        backgroundColor: Colors.green, // Warna AppBar
         elevation: 0,
       ),
       body: Obx(() {
@@ -35,7 +35,7 @@ class TeacherProfileView extends GetView<TeacherProfileController> {
                   Container(
                     height: 180,
                     decoration: const BoxDecoration(
-                      color: Colors.indigo,
+                      color: Colors.green,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30),
@@ -49,7 +49,7 @@ class TeacherProfileView extends GetView<TeacherProfileController> {
                       radius: 50,
                       backgroundColor: Colors.white,
                       backgroundImage: const AssetImage(
-                          'assets/avatar_placeholder.png'), // Gambar placeholder
+                          'lib/assets/logo.png'), // Gambar placeholder
                     ),
                   ),
                   Positioned(
@@ -131,10 +131,10 @@ class TeacherProfileView extends GetView<TeacherProfileController> {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: Colors.indigo.shade100,
+              backgroundColor: Colors.green.shade100,
               child: Icon(
                 icon,
-                color: Colors.indigo,
+                color: Colors.green,
               ),
             ),
             const SizedBox(width: 16),
