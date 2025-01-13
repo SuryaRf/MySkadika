@@ -28,11 +28,18 @@ class LoginView extends GetView<LoginController> {
       // Ambil dokumen pengguna pertama yang ditemukan
       final userDoc = querySnapshot.docs.first;
       final role = userDoc['role']; // Ambil role dari dokumen
-      final nipOrNis = role == 'teacher' ? userDoc['nip'] : userDoc['nis']; // Ambil NIP/NIS sesuai role
+      final nis = userDoc['nis']; // Ambil NIS siswa dari data Firestore
+      final nipOrNis = role == 'teacher'
+          ? userDoc['nip']
+          : userDoc['nis']; // Ambil NIP/NIS sesuai role
 
       // Simpan NIP atau NIS ke GetStorage
       final storage = GetStorage();
-      storage.write('identifier', nipOrNis); // Gunakan kunci umum untuk penyimpanan (identifier)
+      storage.write('identifier',
+          nipOrNis); // Gunakan kunci umum untuk penyimpanan (identifier)
+
+      final storageStudent = GetStorage();
+      storageStudent.write('nis', nis);
 
       // Navigasi berdasarkan role
       if (role == 'teacher') {
