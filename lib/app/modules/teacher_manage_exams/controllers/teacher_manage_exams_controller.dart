@@ -4,30 +4,55 @@ import 'package:get/get.dart';
 class TeacherManageExamsController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  final title = ''.obs;
-  final questions = <Map<String, dynamic>>[].obs;
+  final exams = <Map<String, dynamic>>[].obs;
 
-  void addQuestion(String questionText, List<String> options, String correctAnswer) {
-    final questionId = DateTime.now().millisecondsSinceEpoch.toString();
-    questions.add({
-      "questionId": questionId,
-      "questionText": questionText,
-      "options": options,
-      "correctAnswer": correctAnswer,
-    });
+  // Menambahkan ujian baru
+  Future<void> addExam(String title, String code) async {
+    try {
+      await firestore.collection('exams').doc(code).set({
+        "title": title,
+        "code": code,
+        "questions": [], // Inisialisasi dengan array kosong untuk soal
+      });
+      exams.add({"title": title, "code": code});
+      Get.snackbar("Success", "Exam added successfully");
+    } catch (e) {
+      Get.snackbar("Error", "Failed to add exam: $e");
+    }
   }
 
-  Future<void> saveExam() async {
-    final examId = DateTime.now().millisecondsSinceEpoch.toString();
+  // Menambahkan soal ke ujian tertentu
+  Future<void> addQuestion(String examCode, String questionText, List<String> options,
+      String correctAnswer) async {
     try {
-      await firestore.collection('exams').doc(examId).set({
-        "examId": examId,
-        "title": title.value,
-        "questions": questions,
-      });
-      Get.snackbar("Success", "Exam has been created successfully");
+      final docRef = firestore.collection('exams').doc(examCode);
+      final exam = await docRef.get();
+      if (exam.exists) {
+        final questions = List<Map<String, dynamic>>.from(exam.data()?['questions'] ?? []);
+        questions.add({
+          "questionText": questionText,
+          "options": options,
+          "correctAnswer": correctAnswer,
+        });
+        await docRef.update({"questions": questions});
+        Get.snackbar("Success", "Question added successfully");
+      } else {
+        Get.snackbar("Error", "Exam not found");
+      }
     } catch (e) {
-      Get.snackbar("Error", "Failed to create exam: $e");
+      Get.snackbar("Error", "Failed to add question: $e");
+    }
+  }
+
+  // Mengambil daftar ujian
+  Future<void> fetchExams() async {
+    try {
+      final querySnapshot = await firestore.collection('exams').get();
+      exams.value = querySnapshot.docs
+          .map((doc) => {"title": doc['title'], "code": doc['code']})
+          .toList();
+    } catch (e) {
+      Get.snackbar("Error", "Failed to fetch exams: $e");
     }
   }
 }
