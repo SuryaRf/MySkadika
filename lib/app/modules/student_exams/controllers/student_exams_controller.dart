@@ -1,14 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class StudentExamsController extends GetxController {
   final exams = [].obs; // List ujian yang diambil dari Firestore
   final selectedAnswers = {}.obs; // Jawaban siswa per soal
   final isLoading = true.obs;
+  late String nis; // Deklarasi nis sebagai variabel instance
 
   @override
   void onInit() {
     super.onInit();
+    // Ambil NIS dari GetStorage dan simpan di variabel instance
+    final storage = GetStorage();
+    nis = storage.read('nis') ?? ''; // Default kosong jika tidak ada
     fetchExams();
   }
 
@@ -45,7 +50,7 @@ class StudentExamsController extends GetxController {
       // Simpan hasil jawaban ke Firestore
       await FirebaseFirestore.instance.collection('results').add({
         'examId': examId,
-        'studentId': 'student123', // Ganti dengan ID siswa saat login
+        'studentId': nis, // Gunakan NIS siswa yang sudah disimpan
         'correctCount': correctCount,
         'incorrectCount': incorrectCount,
         'submittedAt': Timestamp.now(),
