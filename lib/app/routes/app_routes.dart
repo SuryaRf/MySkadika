@@ -15,6 +15,10 @@ abstract class Routes {
   static const MAPEL = _Paths.MAPEL;
   static const DETAIL_MAPEL = _Paths.DETAIL_MAPEL;
   static const NAVIGATION_BAR_STUDENT = _Paths.NAVIGATION_BAR_STUDENT;
+  static const STUDENT_TASK = _Paths.STUDENT_TASK;
+  static const STUDENT_EXAMS = _Paths.STUDENT_EXAMS;
+  static const STUDENT_PROFILE = _Paths.STUDENT_PROFILE;
+  static const STUDENT_MAPEL = _Paths.STUDENT_MAPEL;
 }
 
 abstract class _Paths {
@@ -31,4 +35,8 @@ abstract class _Paths {
   static const MAPEL = '/mapel';
   static const DETAIL_MAPEL = '/detail-mapel';
   static const NAVIGATION_BAR_STUDENT = '/navigation-bar-student';
+  static const STUDENT_TASK = '/student-task';
+  static const STUDENT_EXAMS = '/student-exams';
+  static const STUDENT_PROFILE = '/student-profile';
+  static const STUDENT_MAPEL = '/student-mapel';
 }
