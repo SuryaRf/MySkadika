@@ -49,7 +49,7 @@ class StudentExamsView extends GetView<StudentExamsController> {
 // Detail View: Menampilkan soal dan memungkinkan siswa memilih jawaban
 class ExamDetailView extends StatelessWidget {
   final String examId;
-  final StudentExamsController controller = Get.find();
+  final StudentExamsController controller = Get.find<StudentExamsController>();
 
   ExamDetailView({required this.examId, super.key});
 
@@ -69,42 +69,38 @@ class ExamDetailView extends StatelessWidget {
             children: [
               Text(
                 'Questions:',
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               ...((exam['questions'] ?? []).map<Widget>((question) {
+                final questionId = question['questionId'] ?? ''; // Ensure questionId is not null
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      question['questionText'],
+                      question['questionText'] ?? 'No question text', // Provide default text
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 8),
                     Obx(() {
                       return Column(
-                        children: ((question['options'] ?? []).map<Widget>((option) {
-                          final isSelected =
-                              controller.selectedAnswers[question['questionId']] ==
-                                  option;
+                        children: ((question['options'] ?? []).where((option) => option != null).map<Widget>((option) {
+                          final isSelected = (controller.selectedAnswers[questionId] ?? '') == (option ?? '');
 
                           return RadioListTile<String>(
                             title: Text(
-                              option,
+                              option ?? 'No option', // Provide default text
                               style: TextStyle(
-                                fontWeight: isSelected
-                                    ? FontWeight.bold
-                                    : FontWeight.normal,
+                                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                                 color: isSelected ? Colors.white : Colors.black,
                               ),
                             ),
-                            value: option,
-                            groupValue:
-                                controller.selectedAnswers[question['questionId']],
+                            value: option ?? '', // Ensure value is not null
+                            groupValue: controller.selectedAnswers[questionId] ?? '', // Default to empty string if null
                             onChanged: (value) {
-                              controller.selectedAnswers[question['questionId']] =
-                                  value;
+                              if (value != null) {
+                                controller.selectedAnswers[questionId] = value;
+                              }
                             },
                             selected: isSelected,
                             selectedTileColor: Colors.green,
