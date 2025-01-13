@@ -4,7 +4,6 @@ import 'package:flutter_login/flutter_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:myskadika/app/modules/navigation_bar/views/navigation_bar_view.dart';
-
 import '../../navigation_bar_student/views/navigation_bar_student_view.dart';
 import '../controllers/login_controller.dart';
 
@@ -28,23 +27,19 @@ class LoginView extends GetView<LoginController> {
       // Ambil dokumen pengguna pertama yang ditemukan
       final userDoc = querySnapshot.docs.first;
       final role = userDoc['role']; // Ambil role dari dokumen
-      final nis = userDoc['nis']; // Ambil NIS siswa dari data Firestore
-      final nipOrNis = role == 'teacher'
-          ? userDoc['nip']
-          : userDoc['nis']; // Ambil NIP/NIS sesuai role
-
-      // Simpan NIP atau NIS ke GetStorage
       final storage = GetStorage();
-      storage.write('identifier',
-          nipOrNis); // Gunakan kunci umum untuk penyimpanan (identifier)
 
-      final storageStudent = GetStorage();
-      storageStudent.write('nis', nis);
-
-      // Navigasi berdasarkan role
       if (role == 'teacher') {
+        // Ambil NIP jika role adalah teacher
+        final nip = userDoc['nip'];
+        storage.write('identifier', nip);
+        storage.write('nip', nip); // Menyimpan NIP ke GetStorage
         Get.to(() => NavigationBarView());
       } else if (role == 'student') {
+        // Ambil NIS jika role adalah student
+        final nis = userDoc['nis'];
+        storage.write('identifier', nis);
+        storage.write('nis', nis);
         Get.to(() => NavigationBarStudentView());
       } else {
         return 'Role tidak dikenali.';

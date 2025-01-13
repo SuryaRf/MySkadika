@@ -25,14 +25,23 @@ class TeacherProfileController extends GetxController {
         return;
       }
 
+      // Debug: Log NIP yang dibaca
+      print('NIP dari GetStorage: $nipAccount');
+
       // Query ke Firestore untuk mengambil data teachers
       final querySnapshot = await FirebaseFirestore.instance
           .collection('teachers')
           .where('nip', isEqualTo: nipAccount)
           .get();
 
+      // Debug: Log hasil query
+      print('Hasil query Firestore: ${querySnapshot.docs}');
+
       if (querySnapshot.docs.isNotEmpty) {
         final teacherData = querySnapshot.docs.first.data();
+
+        // Debug: Log data yang diterima
+        print('Data guru: $teacherData');
 
         // Update data ke Rx
         name.value = teacherData['nama'] ?? '';
@@ -45,6 +54,7 @@ class TeacherProfileController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', 'Terjadi kesalahan: $e');
+      print('Error: $e'); // Debug error
     } finally {
       isLoading.value = false;
     }
