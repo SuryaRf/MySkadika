@@ -82,18 +82,40 @@ class ExamDetailView extends StatelessWidget {
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 8),
-                    ...((question['options'] ?? []).map<Widget>((option) {
-                      return RadioListTile<String>(
-                        title: Text(option),
-                        value: option,
-                        groupValue:
-                            controller.selectedAnswers[question['questionId']],
-                        onChanged: (value) {
-                          controller.selectedAnswers[question['questionId']] =
-                              value;
-                        },
+                    Obx(() {
+                      return Column(
+                        children: ((question['options'] ?? []).map<Widget>((option) {
+                          final isSelected =
+                              controller.selectedAnswers[question['questionId']] ==
+                                  option;
+
+                          return RadioListTile<String>(
+                            title: Text(
+                              option,
+                              style: TextStyle(
+                                fontWeight: isSelected
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                                color: isSelected ? Colors.white : Colors.black,
+                              ),
+                            ),
+                            value: option,
+                            groupValue:
+                                controller.selectedAnswers[question['questionId']],
+                            onChanged: (value) {
+                              controller.selectedAnswers[question['questionId']] =
+                                  value;
+                            },
+                            selected: isSelected,
+                            selectedTileColor: Colors.green,
+                            tileColor: Colors.grey[200],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          );
+                        }).toList()),
                       );
-                    }).toList()),
+                    }),
                     const Divider(),
                   ],
                 );
