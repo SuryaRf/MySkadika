@@ -1,3 +1,4 @@
+// Main View: Menampilkan daftar ujian (cover ujian)
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/student_exams_controller.dart';
@@ -25,53 +26,87 @@ class StudentExamsView extends GetView<StudentExamsController> {
             final exam = controller.exams[index];
             return Card(
               margin: const EdgeInsets.all(8.0),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      exam['title'],
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 16),
-                    ...exam['questions'].map<Widget>((question) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            question['questionText'],
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(height: 8),
-                          ...question['options'].map<Widget>((option) {
-                            return RadioListTile<String>(
-                              title: Text(option),
-                              value: option,
-                              groupValue:
-                                  controller.selectedAnswers[question['questionId']],
-                              onChanged: (value) {
-                                controller.selectedAnswers[question['questionId']] = value;
-                              },
-                            );
-                          }).toList(),
-                          const Divider(),
-                        ],
-                      );
-                    }).toList(),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () => controller.submitAnswers(exam['examId']),
-                      child: const Text('Submit'),
-                    ),
-                  ],
+              child: ListTile(
+                title: Text(
+                  exam['title'],
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
+                subtitle: Text('Code: ${exam['code']}'),
+                trailing: const Icon(Icons.arrow_forward),
+                onTap: () {
+                  Get.to(() => ExamDetailView(examId: exam['code']));
+                },
               ),
             );
           },
         );
       }),
+    );
+  }
+}
+
+// Detail View: Menampilkan soal dan memungkinkan siswa memilih jawaban
+class ExamDetailView extends StatelessWidget {
+  final String examId;
+  final StudentExamsController controller = Get.find();
+
+  ExamDetailView({required this.examId, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final exam = controller.exams.firstWhere((e) => e['code'] == examId);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Exam: ${exam['title']}'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Questions:',
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              ...((exam['questions'] ?? []).map<Widget>((question) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      question['questionText'],
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    ...((question['options'] ?? []).map<Widget>((option) {
+                      return RadioListTile<String>(
+                        title: Text(option),
+                        value: option,
+                        groupValue:
+                            controller.selectedAnswers[question['questionId']],
+                        onChanged: (value) {
+                          controller.selectedAnswers[question['questionId']] =
+                              value;
+                        },
+                      );
+                    }).toList()),
+                    const Divider(),
+                  ],
+                );
+              }).toList()),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => controller.submitAnswers(examId),
+                child: const Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

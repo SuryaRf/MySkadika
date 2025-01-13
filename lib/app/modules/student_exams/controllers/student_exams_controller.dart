@@ -20,8 +20,15 @@ class StudentExamsController extends GetxController {
   Future<void> fetchExams() async {
     try {
       isLoading.value = true;
-      final snapshot = await FirebaseFirestore.instance.collection('exams').get();
-      exams.value = snapshot.docs.map((doc) => doc.data()).toList();
+      final snapshot =
+          await FirebaseFirestore.instance.collection('exams').get();
+      exams.value = snapshot.docs.map((doc) {
+        final data = doc.data();
+        return {
+          ...data,
+          'questions': data['questions'] ?? [], // Pastikan questions tidak null
+        };
+      }).toList();
     } catch (e) {
       Get.snackbar('Error', 'Failed to fetch exams: $e');
     } finally {
