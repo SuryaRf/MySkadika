@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:myskadika/app/modules/detail_mapel/controllers/detail_mapel_controller.dart';
 import 'package:myskadika/app/modules/detail_mapel/views/detail_mapel_view.dart';
 // import 'package:iconly/iconly.dart';
@@ -18,6 +19,13 @@ class TeacherHomeView extends GetView<TeacherHomeController> {
     var width = Get.width;
     var height = Get.height;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+    final storage = GetStorage();
+    print('GetStorage Data:');
+    storage.getKeys().forEach((key) {
+      print('$key: ${storage.read(key)}');
+    });
+  },),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

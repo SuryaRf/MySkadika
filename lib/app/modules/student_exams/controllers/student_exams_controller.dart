@@ -36,33 +36,43 @@ class StudentExamsController extends GetxController {
   }
 
   void submitAnswers(String examId) async {
-try {
-      final exam = exams.firstWhere((e) => e['code'] == examId);
+  try {
+    final exam = exams.firstWhere((e) => e['code'] == examId);
 
-      int correctCount = 0;
-      int incorrectCount = 0;
-      for (var question in exam['questions']) {
-        final questionId = question['questionId'];
-        final correctAnswer = question['correctAnswer'];
-        if (selectedAnswers[questionId] == correctAnswer) {
+    int correctCount = 0;
+    int incorrectCount = 0;
+
+    for (var question in exam['questions']) {
+      final questionId = question['questionId'];
+      final correctAnswer = question['correctAnswer'];
+
+      // Check if questionId and correctAnswer are not null
+      if (questionId != null && correctAnswer != null) {
+        final selectedAnswer = selectedAnswers[questionId];
+
+        // Compare selected answer with correct answer
+        if (selectedAnswer == correctAnswer) {
           correctCount++;
         } else {
           incorrectCount++;
         }
+      } else {
+        // Handle the case where questionId or correctAnswer is null
+        Get.snackbar('Warning', 'Question ID or correct answer is missing for a question.');
       }
-
-      // Simpan hasil jawaban ke Firestore
-      await FirebaseFirestore.instance.collection('results').add({
-        'examId': examId,
-        'studentId': nis,
-        'correctCount': correctCount,
-        'incorrectCount': incorrectCount,
-        'submittedAt': Timestamp.now(),
-      });
-
-      Get.snackbar('Success', 'Your answers have been submitted!');
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to submit answers: $e');
     }
+
+    // Simpan hasil jawaban ke Firestore
+    await FirebaseFirestore.instance.collection('results').add({
+      'examId': examId,
+      'studentId': nis,
+      'correctCount': correctCount,
+      'incorrectCount': incorrectCount,
+      'submittedAt': Timestamp.now(),
+    });
+
+    Get.snackbar('Success', 'Your answers have been submitted!');
+  } catch (e) {
+    Get.snackbar('Error', 'Failed to submit answers: $e');
   }
-}
+}}
