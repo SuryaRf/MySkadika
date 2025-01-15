@@ -36,11 +36,17 @@ class LoginView extends GetView<LoginController> {
         storage.write('nip', nip); // Menyimpan NIP ke GetStorage
         Get.to(() => NavigationBarView());
       } else if (role == 'student') {
-        // Ambil NIS jika role adalah student
         final nis = userDoc['nis'];
-        storage.write('identifier', nis);
-        storage.write('nis', nis);
-        Get.to(() => NavigationBarStudentView());
+        if (nis != null && nis.isNotEmpty) {
+          final storage = GetStorage();
+          storage.write('identifier', nis);
+          storage.write('nis', nis);
+          print('NIS berhasil disimpan: $nis');
+          Get.to(() => NavigationBarStudentView());
+        } else {
+          print('NIS kosong atau null');
+          return 'Data NIS tidak valid di Firestore.';
+        }
       } else {
         return 'Role tidak dikenali.';
       }
