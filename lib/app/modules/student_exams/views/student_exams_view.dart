@@ -49,14 +49,11 @@ class StudentExamsView extends GetView<StudentExamsController> {
 // Detail View: Menampilkan soal dan memungkinkan siswa memilih jawaban
 class ExamDetailView extends StatelessWidget {
   final String examId;
-  final StudentExamsController controller = Get.find<StudentExamsController>();
-
+  final StudentExamsController controller = Get.find();
   ExamDetailView({required this.examId, super.key});
-
   @override
   Widget build(BuildContext context) {
     final exam = controller.exams.firstWhere((e) => e['code'] == examId);
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Exam: ${exam['title']}'),
@@ -69,49 +66,31 @@ class ExamDetailView extends StatelessWidget {
             children: [
               Text(
                 'Questions:',
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               ...((exam['questions'] ?? []).map<Widget>((question) {
-                final questionId = question['questionId'] ?? ''; // Ensure questionId is not null
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      question['questionText'] ?? 'No question text', // Provide default text
+                      question['questionText'],
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 8),
-                    Obx(() {
-                      return Column(
-                        children: ((question['options'] ?? []).where((option) => option != null).map<Widget>((option) {
-                          final isSelected = (controller.selectedAnswers[questionId] ?? '') == (option ?? '');
-
-                          return RadioListTile<String>(
-                            title: Text(
-                              option ?? 'No option', // Provide default text
-                              style: TextStyle(
-                                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                                color: isSelected ? Colors.white : Colors.black,
-                              ),
-                            ),
-                            value: option ?? '', // Ensure value is not null
-                            groupValue: controller.selectedAnswers[questionId] ?? '', // Default to empty string if null
-                            onChanged: (value) {
-                              if (value != null) {
-                                controller.selectedAnswers[questionId] = value;
-                              }
-                            },
-                            selected: isSelected,
-                            selectedTileColor: Colors.green,
-                            tileColor: Colors.grey[200],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          );
-                        }).toList()),
+                    ...((question['options'] ?? []).map<Widget>((option) {
+                      return RadioListTile<String>(
+                        title: Text(option),
+                        value: option,
+                        groupValue:
+                            controller.selectedAnswers[question['questionId']],
+                        onChanged: (value) {
+                          controller.selectedAnswers[question['questionId']] =
+                              value!;
+                        },
                       );
-                    }),
+                    }).toList()),
                     const Divider(),
                   ],
                 );

@@ -7,6 +7,7 @@ class StudentExamsController extends GetxController {
   final selectedAnswers = <String, String>{}.obs; // Jawaban siswa per soal (key: questionId, value: answer)
   final isLoading = true.obs;
   late String nis; // Deklarasi nis sebagai variabel instance
+   final currentQuestionIndex = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -32,6 +33,16 @@ class StudentExamsController extends GetxController {
       Get.snackbar('Error', 'Failed to fetch exams: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+    void nextQuestion() {
+    currentQuestionIndex.value++;
+  }
+
+  void previousQuestion() {
+    if (currentQuestionIndex.value > 0) {
+      currentQuestionIndex.value--;
     }
   }
 
@@ -61,6 +72,7 @@ class StudentExamsController extends GetxController {
         Get.snackbar('Warning', 'Question ID or correct answer is missing for a question.');
       }
     }
+    
 
     // Simpan hasil jawaban ke Firestore
     await FirebaseFirestore.instance.collection('results').add({
