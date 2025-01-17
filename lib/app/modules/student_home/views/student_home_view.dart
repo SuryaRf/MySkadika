@@ -24,10 +24,7 @@ class StudentHomeView extends GetView<StudentHomeController> {
       //     });
       //   },
       // ),
-      appBar: AppBar(
-        title: const Text('StudentHomeView'),
-        centerTitle: true,
-      ),
+
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -107,7 +104,7 @@ class StudentHomeView extends GetView<StudentHomeController> {
                             borderRadius: BorderRadius.circular(10),
                             image: const DecorationImage(
                               image: AssetImage(
-                                  'lib/assets/icon_teacher.png'), // Path gambar
+                                  'lib/assets/icon_student.png'), // Path gambar
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -121,7 +118,7 @@ class StudentHomeView extends GetView<StudentHomeController> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Pantau Data Siswa",
+                                "Cek Ujian Kamu",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge!
@@ -150,7 +147,7 @@ class StudentHomeView extends GetView<StudentHomeController> {
                                   );
                                 },
                                 child: const Text(
-                                  "Pantau Data Siswa Sekarang",
+                                  "Pantau Ujian Sekarang",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold),

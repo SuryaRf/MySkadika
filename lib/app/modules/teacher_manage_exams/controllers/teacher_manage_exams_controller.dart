@@ -45,14 +45,16 @@ class TeacherManageExamsController extends GetxController {
   }
 
   // Mengambil daftar ujian
-  Future<void> fetchExams() async {
-    try {
-      final querySnapshot = await firestore.collection('exams').get();
-      exams.value = querySnapshot.docs
-          .map((doc) => {"title": doc['title'], "code": doc['code']})
-          .toList();
-    } catch (e) {
-      Get.snackbar("Error", "Failed to fetch exams: $e");
-    }
+ Future<void> fetchExams() async {
+  try {
+    final querySnapshot = await firestore.collection('exams').get();
+    exams.value = querySnapshot.docs
+        .map((doc) => {"title": doc['title'], "code": doc['code']})
+        .toList();
+    print("Exams fetched: ${exams.value}"); // Tambahkan log untuk debugging
+  } catch (e) {
+    Get.snackbar("Error", "Failed to fetch exams: $e");
+    print("Error fetching exams: $e"); // Tambahkan log untuk debugging
   }
+}
 }

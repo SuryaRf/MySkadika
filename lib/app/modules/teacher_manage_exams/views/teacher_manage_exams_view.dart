@@ -8,7 +8,9 @@ class TeacherManageExamsView extends StatelessWidget {
   final TextEditingController examTitleController = TextEditingController();
   final TextEditingController examCodeController = TextEditingController();
 
-  TeacherManageExamsView({super.key});
+  TeacherManageExamsView({super.key}) {
+    controller.fetchExams(); // Memanggil fetchExams saat widget dibuat
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,11 @@ class TeacherManageExamsView extends StatelessWidget {
         title: const Text('Manage Exams'),
       ),
       body: Obx(() {
+        if (controller.exams.isEmpty) {
+          return const Center(
+            child: Text('No exams available'),
+          );
+        }
         return ListView.builder(
           itemCount: controller.exams.length,
           itemBuilder: (context, index) {
@@ -24,7 +31,7 @@ class TeacherManageExamsView extends StatelessWidget {
             return ListTile(
               title: Text(exam['title']),
               subtitle: Text('Code: ${exam['code']}'),
-              trailing: Icon(Icons.arrow_forward),
+              trailing: const Icon(Icons.arrow_forward),
               onTap: () {
                 Get.to(() => ExamDetailView(examCode: exam['code']));
               },
