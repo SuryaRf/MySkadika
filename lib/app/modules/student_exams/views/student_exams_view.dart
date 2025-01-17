@@ -51,6 +51,7 @@ class ExamDetailView extends StatelessWidget {
   final String examId;
   final StudentExamsController controller = Get.find();
   ExamDetailView({required this.examId, super.key});
+
   @override
   Widget build(BuildContext context) {
     final exam = controller.exams.firstWhere((e) => e['code'] == examId);
@@ -66,31 +67,35 @@ class ExamDetailView extends StatelessWidget {
             children: [
               Text(
                 'Questions:',
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               ...((exam['questions'] ?? []).map<Widget>((question) {
+                final questionId = question['questionId'] ?? '';
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      question['questionText'],
+                      question['questionText'] ?? 'No question text',
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 8),
-                    ...((question['options'] ?? []).map<Widget>((option) {
-                      return RadioListTile<String>(
-                        title: Text(option),
-                        value: option,
-                        groupValue:
-                            controller.selectedAnswers[question['questionId']],
-                        onChanged: (value) {
-                          controller.selectedAnswers[question['questionId']] =
-                              value!;
-                        },
+                    Obx(() {
+                      return Column(
+                        children: (question['options'] ?? []).map<Widget>((option) {
+                          return RadioListTile<String>(
+                            title: Text(option ?? 'No option'),
+                            value: option ?? '',
+                            groupValue: controller.selectedAnswers[questionId],
+                            onChanged: (value) {
+                              if (value != null) {
+                                controller.selectedAnswers[questionId] = value;
+                              }
+                            },
+                          );
+                        }).toList(),
                       );
-                    }).toList()),
+                    }),
                     const Divider(),
                   ],
                 );
