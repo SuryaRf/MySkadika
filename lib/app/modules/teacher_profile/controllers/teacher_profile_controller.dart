@@ -59,4 +59,12 @@ class TeacherProfileController extends GetxController {
       isLoading.value = false;
     }
   }
+  
+  // Fungsi logout
+  void logout() {
+    final storage = GetStorage();
+    storage.remove('nip'); // Hapus data NIP
+    Get.offAllNamed('/login'); // Arahkan ke halaman login
+  }
 }
+
