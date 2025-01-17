@@ -19,13 +19,15 @@ class TeacherHomeView extends GetView<TeacherHomeController> {
     var width = Get.width;
     var height = Get.height;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-    final storage = GetStorage();
-    print('GetStorage Data:');
-    storage.getKeys().forEach((key) {
-      print('$key: ${storage.read(key)}');
-    });
-  },),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     final storage = GetStorage();
+      //     print('GetStorage Data:');
+      //     storage.getKeys().forEach((key) {
+      //       print('$key: ${storage.read(key)}');
+      //     });
+      //   },
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
