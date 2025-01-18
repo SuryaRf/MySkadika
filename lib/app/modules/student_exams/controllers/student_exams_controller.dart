@@ -18,23 +18,42 @@ class StudentExamsController extends GetxController {
   }
 
   Future<void> fetchExams() async {
-    try {
-      isLoading.value = true;
-      final snapshot =
-          await FirebaseFirestore.instance.collection('exams').get();
-      exams.value = snapshot.docs.map((doc) {
-        final data = doc.data();
-        return {
-          ...data,
-          'questions': data['questions'] ?? [], // Pastikan questions tidak null
-        };
-      }).toList();
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch exams: $e');
-    } finally {
-      isLoading.value = false;
-    }
+  try {
+    isLoading.value = true;
+
+    // Ambil semua hasil ujian yang sudah dikerjakan siswa dengan nis ini
+    final resultsSnapshot = await FirebaseFirestore.instance
+        .collection('results')
+        .where('studentId', isEqualTo: nis)
+        .get();
+
+    // Buat daftar examId yang sudah dikerjakan
+    final completedExamIds = resultsSnapshot.docs
+        .map((doc) => doc.data()['examId'] as String)
+        .toList();
+
+    // Ambil semua ujian dari koleksi exams
+    final examsSnapshot =
+        await FirebaseFirestore.instance.collection('exams').get();
+
+    // Filter ujian yang belum dikerjakan
+    exams.value = examsSnapshot.docs
+        .where((doc) => !completedExamIds.contains(doc.data()['code']))
+        .map((doc) {
+          final data = doc.data();
+          return {
+            ...data,
+            'questions': data['questions'] ?? [], // Pastikan questions tidak null
+          };
+        })
+        .toList();
+  } catch (e) {
+    Get.snackbar('Error', 'Failed to fetch exams: $e');
+  } finally {
+    isLoading.value = false;
   }
+}
+
 
     void nextQuestion() {
     currentQuestionIndex.value++;
