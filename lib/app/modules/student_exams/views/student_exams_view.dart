@@ -105,7 +105,10 @@ class ExamDetailView extends StatelessWidget {
               }).toList()),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () => controller.submitAnswers(examId),
+                onPressed: () {controller.submitAnswers(examId);
+                Get.back();
+                
+                }, 
                 child: const Text('Submit'),
               ),
             ],
