@@ -15,7 +15,7 @@ class StudentProfileView extends GetView<StudentProfileController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil Guru', style: TextStyle(
+        title: const Text('Profil Siswa', style: TextStyle(
           color: Colors.white
         ),),
         centerTitle: true,
@@ -72,7 +72,7 @@ class StudentProfileView extends GetView<StudentProfileController> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'NIP: ${controller.nip.value}',
+                            'NIP: ${controller.nis.value}',
                             style: const TextStyle(
                               fontSize: 16,
                               color: Colors.white70,
