@@ -12,8 +12,8 @@ class StudentExamsView extends GetView<StudentExamsController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Student Exams'),
-        centerTitle: true,
+        title: const Text('Ujian Siswa', style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.green,
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
