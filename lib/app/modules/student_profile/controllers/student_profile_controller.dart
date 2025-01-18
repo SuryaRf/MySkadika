@@ -45,7 +45,7 @@ class StudentProfileController extends GetxController {
         print('Data Siswa: $studentData');
 
         // Update data ke Rx
-        name.value = studentData['nama'] ?? '';
+        name.value = studentData['name'] ?? '';
         nis.value = studentData['nis'] ?? '';
         gender.value = studentData['gender'] ?? '';
         address.value = studentData['address'] ?? '';

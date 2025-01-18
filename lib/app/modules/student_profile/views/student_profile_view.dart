@@ -71,13 +71,7 @@ class StudentProfileView extends GetView<StudentProfileController> {
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            'NIP: ${controller.nis.value}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.white70,
-                            ),
-                          ),
+                         
                         ],
                       ),
                     ),
@@ -92,9 +86,21 @@ class StudentProfileView extends GetView<StudentProfileController> {
                 child: Column(
                   children: [
                     _buildInfoCard(
+                      icon: Icons.sim_card,
+                      title: 'NIS',
+                      value: controller.nis.value,
+                    ),
+                    const SizedBox(height: 10),
+                    _buildInfoCard(
                       icon: Icons.person,
                       title: 'Jenis Kelamin',
                       value: controller.gender.value,
+                    ),
+                    const SizedBox(height: 10),
+                    _buildInfoCard(
+                      icon: Icons.class_,
+                      title: 'Kelas',
+                      value: controller.classes.value,
                     ),
                     const SizedBox(height: 10),
                     _buildInfoCard(
