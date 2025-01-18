@@ -105,7 +105,7 @@ Future<void> refreshData() async {
       'submittedAt': Timestamp.now(),
     });
 
-    Get.snackbar('Success', 'Your answers have been submitted!');
+   
     Get.back();
   } catch (e) {
     Get.snackbar('Error', 'Failed to submit answers: $e');

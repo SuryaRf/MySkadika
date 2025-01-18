@@ -12,7 +12,10 @@ class StudentExamsView extends GetView<StudentExamsController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ujian Siswa', style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Ujian Siswa',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.green,
       ),
       body: Obx(() {
@@ -21,7 +24,7 @@ class StudentExamsView extends GetView<StudentExamsController> {
         }
 
         return RefreshIndicator(
-           onRefresh: controller.refreshData,
+          onRefresh: controller.refreshData,
           child: ListView.builder(
             itemCount: controller.exams.length,
             itemBuilder: (context, index) {
@@ -70,7 +73,8 @@ class ExamDetailView extends StatelessWidget {
             children: [
               Text(
                 'Questions:',
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               ...((exam['questions'] ?? []).map<Widget>((question) {
@@ -85,7 +89,8 @@ class ExamDetailView extends StatelessWidget {
                     const SizedBox(height: 8),
                     Obx(() {
                       return Column(
-                        children: (question['options'] ?? []).map<Widget>((option) {
+                        children:
+                            (question['options'] ?? []).map<Widget>((option) {
                           return RadioListTile<String>(
                             title: Text(option ?? 'No option'),
                             value: option ?? '',
@@ -105,10 +110,12 @@ class ExamDetailView extends StatelessWidget {
               }).toList()),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {controller.submitAnswers(examId);
-                Get.back();
-                
-                }, 
+                onPressed: () {
+                  controller.submitAnswers(examId);
+                  controller.refreshData;
+                  Get.back();
+                  Get.snackbar('Success', 'Your answers have been submitted!');
+                },
                 child: const Text('Submit'),
               ),
             ],
