@@ -54,6 +54,9 @@ class StudentExamsController extends GetxController {
   }
 }
 
+Future<void> refreshData() async {
+  await fetchExams();
+}
 
     void nextQuestion() {
     currentQuestionIndex.value++;
@@ -103,6 +106,7 @@ class StudentExamsController extends GetxController {
     });
 
     Get.snackbar('Success', 'Your answers have been submitted!');
+    Get.back();
   } catch (e) {
     Get.snackbar('Error', 'Failed to submit answers: $e');
   }

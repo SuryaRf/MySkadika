@@ -20,26 +20,29 @@ class StudentExamsView extends GetView<StudentExamsController> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return ListView.builder(
-          itemCount: controller.exams.length,
-          itemBuilder: (context, index) {
-            final exam = controller.exams[index];
-            return Card(
-              margin: const EdgeInsets.all(8.0),
-              child: ListTile(
-                title: Text(
-                  exam['title'],
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+        return RefreshIndicator(
+           onRefresh: controller.refreshData,
+          child: ListView.builder(
+            itemCount: controller.exams.length,
+            itemBuilder: (context, index) {
+              final exam = controller.exams[index];
+              return Card(
+                margin: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  title: Text(
+                    exam['title'],
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text('Code: ${exam['code']}'),
+                  trailing: const Icon(Icons.arrow_forward),
+                  onTap: () {
+                    Get.to(() => ExamDetailView(examId: exam['code']));
+                  },
                 ),
-                subtitle: Text('Code: ${exam['code']}'),
-                trailing: const Icon(Icons.arrow_forward),
-                onTap: () {
-                  Get.to(() => ExamDetailView(examId: exam['code']));
-                },
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       }),
     );
