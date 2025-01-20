@@ -41,10 +41,12 @@ class TeacherManageExamsView extends StatelessWidget {
         );
       }),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+
         onPressed: () {
           _showAddExamDialog(context);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white,),
       ),
     );
   }

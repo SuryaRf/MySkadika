@@ -22,13 +22,14 @@ class TeacherManageExamsController extends GetxController {
   }
 
   // Menambahkan soal ke ujian tertentu
-  Future<void> addQuestion(String examCode, String questionText, List<String> options,
-      String correctAnswer) async {
+  Future<void> addQuestion(String examCode, String questionText,
+      List<String> options, String correctAnswer) async {
     try {
       final docRef = firestore.collection('exams').doc(examCode);
       final exam = await docRef.get();
       if (exam.exists) {
-        final questions = List<Map<String, dynamic>>.from(exam.data()?['questions'] ?? []);
+        final questions =
+            List<Map<String, dynamic>>.from(exam.data()?['questions'] ?? []);
         questions.add({
           "questionText": questionText,
           "options": options,
@@ -45,16 +46,39 @@ class TeacherManageExamsController extends GetxController {
   }
 
   // Mengambil daftar ujian
- Future<void> fetchExams() async {
+  Future<void> fetchExams() async {
+    try {
+      final querySnapshot = await firestore.collection('exams').get();
+      exams.value = querySnapshot.docs
+          .map((doc) => {"title": doc['title'], "code": doc['code']})
+          .toList();
+      print("Exams fetched: ${exams.value}"); // Tambahkan log untuk debugging
+    } catch (e) {
+      Get.snackbar("Error", "Failed to fetch exams: $e");
+      print("Error fetching exams: $e"); // Tambahkan log untuk debugging
+    }
+  }
+
+  // Mengambil hasil siswa berdasarkan examCode
+final results = <Map<String, dynamic>>[].obs;
+
+Future<void> fetchResults(String examCode) async {
   try {
-    final querySnapshot = await firestore.collection('exams').get();
-    exams.value = querySnapshot.docs
-        .map((doc) => {"title": doc['title'], "code": doc['code']})
+    final querySnapshot = await firestore
+        .collection('results')
+        .where('examCode', isEqualTo: examCode)
+        .get();
+
+    results.value = querySnapshot.docs
+        .map((doc) => {
+              "studentId": doc['studentId'],
+              "correctCount": doc['correctCount'],
+              "incorrectCount": doc['incorrectCount']
+            })
         .toList();
-    print("Exams fetched: ${exams.value}"); // Tambahkan log untuk debugging
   } catch (e) {
-    Get.snackbar("Error", "Failed to fetch exams: $e");
-    print("Error fetching exams: $e"); // Tambahkan log untuk debugging
+    Get.snackbar("Error", "Failed to fetch results: $e");
   }
 }
+
 }
