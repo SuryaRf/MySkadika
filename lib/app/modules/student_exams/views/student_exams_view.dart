@@ -112,9 +112,7 @@ class ExamDetailView extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   controller.submitAnswers(examId);
-                  controller.refreshData;
-                  Get.back();
-                  Get.snackbar('Success', 'Your answers have been submitted!');
+
                 },
                 child: const Text('Submit'),
               ),

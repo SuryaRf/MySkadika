@@ -16,7 +16,8 @@ class TeacherManageExamsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Manage Exams'),
+        backgroundColor: Colors.green,
+        title: const Text('Manage Exams', style: TextStyle(color: Colors.white),),
       ),
       body: Obx(() {
         if (controller.exams.isEmpty) {
