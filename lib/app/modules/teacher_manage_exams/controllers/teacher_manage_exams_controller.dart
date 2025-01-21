@@ -66,7 +66,7 @@ Future<void> fetchResults(String examCode) async {
   try {
     final querySnapshot = await firestore
         .collection('results')
-        .where('examCode', isEqualTo: examCode)
+        .where('examId', isEqualTo: examCode)
         .get();
 
     results.value = querySnapshot.docs

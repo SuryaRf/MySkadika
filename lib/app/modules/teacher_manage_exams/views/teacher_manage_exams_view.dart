@@ -96,7 +96,9 @@ class ExamDetailView extends StatelessWidget {
   final List<TextEditingController> optionControllers =
       List.generate(4, (_) => TextEditingController());
 
-  ExamDetailView({required this.examCode, super.key});
+  ExamDetailView({required this.examCode, super.key}) {
+    controller.fetchResults(examCode); // Ambil data hasil saat halaman dibuka
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,42 +110,88 @@ class ExamDetailView extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Results:',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              Obx(() {
+                if (controller.results.isEmpty) {
+                  return const Text('No students have completed this exam.');
+                }
+                return Column(
+                  children: controller.results.map((result) {
+                    return ListTile(
+                      title: Text('Student ID: ${result['studentId']}'),
+                      subtitle: Text(
+                          'Correct: ${result['correctCount']} | Incorrect: ${result['incorrectCount']}'),
+                    );
+                  }).toList(),
+                );
+              }),
+              const Divider(),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  _showAddQuestionDialog(context);
+                },
+                child: const Text('Tambahkan Pertanyaan'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showAddQuestionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Tambah Pertanyaan'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: questionController,
                 decoration: const InputDecoration(labelText: 'Question Text'),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               ...List.generate(4, (index) {
                 return TextField(
                   controller: optionControllers[index],
                   decoration: InputDecoration(labelText: 'Option ${index + 1}'),
                 );
               }),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               TextField(
                 controller: correctAnswerController,
                 decoration: const InputDecoration(labelText: 'Correct Answer'),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  controller.addQuestion(
-                    examCode,
-                    questionController.text,
-                    optionControllers.map((e) => e.text).toList(),
-                    correctAnswerController.text,
-                  );
-                  questionController.clear();
-                  optionControllers.forEach((e) => e.clear());
-                  correctAnswerController.clear();
-                },
-                child: const Text('Add Question'),
-              ),
             ],
           ),
-        ),
-      ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                controller.addQuestion(
+                  examCode,
+                  questionController.text,
+                  optionControllers.map((e) => e.text).toList(),
+                  correctAnswerController.text,
+                );
+                questionController.clear();
+                optionControllers.forEach((e) => e.clear());
+                correctAnswerController.clear();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
