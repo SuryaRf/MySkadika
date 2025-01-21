@@ -73,40 +73,47 @@ class StudentExamsController extends GetxController {
       final exam = exams.firstWhere((e) => e['code'] == examId);
 
       int correctCount = 0;
-      int incorrectCount = 0;
+      int totalQuestions = exam['questions'].length;
+
+      // Simpan jawaban siswa
+      List<Map<String, dynamic>> studentAnswers = [];
 
       for (var question in exam['questions']) {
         final questionId = question['questionId'];
         final correctAnswer = question['correctAnswer'];
+        final selectedAnswer = selectedAnswers[questionId];
 
-        // Check if questionId and correctAnswer are not null
-        if (questionId != null && correctAnswer != null) {
-          final selectedAnswer = selectedAnswers[questionId];
+        // Tambahkan jawaban siswa ke daftar
+        studentAnswers.add({
+          'questionId': questionId,
+          'selectedAnswer': selectedAnswer,
+          'correctAnswer': correctAnswer,
+        });
 
-          // Compare selected answer with correct answer
-          if (selectedAnswer == correctAnswer) {
-            correctCount++;
-          } else {
-            incorrectCount++;
-          }
-        } else {
-          // Handle the case where questionId or correctAnswer is null
-          Get.snackbar('Warning',
-              'Question ID or correct answer is missing for a question.');
+        // Hitung jawaban yang benar
+        if (selectedAnswer == correctAnswer) {
+          correctCount++;
         }
       }
 
-      // Simpan hasil jawaban ke Firestore
+      // Kalkulasi nilai total
+      int score = ((correctCount / totalQuestions) * 100).toInt();
+
+      // Simpan hasil jawaban dan nilai ke Firestore
       await FirebaseFirestore.instance.collection('results').add({
         'examId': examId,
         'studentId': nis,
         'correctCount': correctCount,
-        'incorrectCount': incorrectCount,
+        'totalQuestions': totalQuestions,
+        'score': score,
+        'answers': studentAnswers, // Menyimpan jawaban siswa
         'submittedAt': Timestamp.now(),
       });
+
       fetchExams();
       Get.back();
-      Get.snackbar('Success', 'Your answers have been submitted!');
+      Get.snackbar(
+          'Success', 'Your answers have been submitted! Your score is $score.');
     } catch (e) {
       Get.snackbar('Error', 'Failed to submit answers: $e');
     }
