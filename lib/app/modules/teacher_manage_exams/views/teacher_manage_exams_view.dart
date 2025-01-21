@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../controllers/teacher_manage_exams_controller.dart';
 
 class TeacherManageExamsView extends StatelessWidget {
@@ -126,7 +127,7 @@ class ExamDetailView extends StatelessWidget {
                     return ListTile(
                       title: Text('Student ID: ${result['studentId']}'),
                       subtitle: Text(
-                          'Correct: ${result['correctCount']} | Incorrect: ${result['incorrectCount']}'),
+                          'Correct: ${result['correctCount']} | Incorrect: ${result['incorrectCount']} | Score: ${result['score']} |\nDate: ${DateFormat('yyyy-MM-dd HH:mm:ss').format(result['submittedAt'].toDate())}'),
                     );
                   }).toList(),
                 );
