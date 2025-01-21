@@ -64,7 +64,7 @@ final results = <Map<String, dynamic>>[].obs;
 
 Future<void> fetchResults(String examCode) async {
   try {
-    final querySnapshot = await firestore
+    final querySnapshot = await FirebaseFirestore.instance
         .collection('results')
         .where('examId', isEqualTo: examCode)
         .get();
@@ -73,7 +73,10 @@ Future<void> fetchResults(String examCode) async {
         .map((doc) => {
               "studentId": doc['studentId'],
               "correctCount": doc['correctCount'],
-              "incorrectCount": doc['incorrectCount']
+              "incorrectCount": doc['totalQuestions'] - doc['correctCount'],
+              "score": doc['score'],
+              "answers": doc['answers'], // Ambil jawaban siswa
+              "submittedAt": doc['submittedAt'], // Tanggal pengumpulan
             })
         .toList();
   } catch (e) {
