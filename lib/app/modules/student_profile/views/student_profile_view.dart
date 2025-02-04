@@ -30,114 +30,124 @@ class StudentProfileView extends GetView<StudentProfileController> {
         }
 
         return SingleChildScrollView(
-          child: Column(
-            children: [
-              // Header dengan gambar dan nama
-              Stack(
-                children: [
-                  Container(
-                    height: 180,
-                    decoration: const BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 40,
-                    left: MediaQuery.of(context).size.width / 2 - 50,
-                    child: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.white,
-                      backgroundImage: const AssetImage(
-                          'lib/assets/logo.png',), // Gambar placeholder
-                    ),
-                  ),
-                  Positioned(
-                    top: 140,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Text(
-                            controller.name.value,
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                         
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-
-              // Informasi detail profil
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
+          child: Container(
+            height: Get.height,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.green.shade100, Colors.white],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+            child: Column(
+              children: [
+                // Header dengan gambar dan nama
+                Stack(
                   children: [
-                    _buildInfoCard(
-                      icon: Icons.sim_card,
-                      title: 'NIS',
-                      value: controller.nis.value,
+                    Container(
+                      height: 180,
+                      decoration: const BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30),
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 10),
-                    _buildInfoCard(
-                      icon: Icons.person,
-                      title: 'Jenis Kelamin',
-                      value: controller.gender.value,
+                    Positioned(
+                      top: 40,
+                      left: MediaQuery.of(context).size.width / 2 - 50,
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.white,
+                        backgroundImage: const AssetImage(
+                            'lib/assets/logo.png',), // Gambar placeholder
+                      ),
                     ),
-                    const SizedBox(height: 10),
-                    _buildInfoCard(
-                      icon: Icons.class_,
-                      title: 'Kelas',
-                      value: controller.classes.value,
-                    ),
-                    const SizedBox(height: 10),
-                    _buildInfoCard(
-                      icon: Icons.home,
-                      title: 'Alamat',
-                      value: controller.address.value,
-                    ),
-                    const SizedBox(height: 10),
-                    _buildInfoCard(
-                      icon: Icons.phone,
-                      title: 'Nomor HP',
-                      value: controller.phoneNumber.value,
+                    Positioned(
+                      top: 140,
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              controller.name.value,
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                           
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ),
-
-            // Tombol Logout
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ElevatedButton(
-                  onPressed: () {
-                    controller.logout();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  child: const Text(
-                    'Logout',
-                    style: TextStyle(color: Colors.white),
+                const SizedBox(height: 20),
+            
+                // Informasi detail profil
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      _buildInfoCard(
+                        icon: Icons.sim_card,
+                        title: 'NIS',
+                        value: controller.nis.value,
+                      ),
+                      const SizedBox(height: 10),
+                      _buildInfoCard(
+                        icon: Icons.person,
+                        title: 'Jenis Kelamin',
+                        value: controller.gender.value,
+                      ),
+                      const SizedBox(height: 10),
+                      _buildInfoCard(
+                        icon: Icons.class_,
+                        title: 'Kelas',
+                        value: controller.classes.value,
+                      ),
+                      const SizedBox(height: 10),
+                      _buildInfoCard(
+                        icon: Icons.home,
+                        title: 'Alamat',
+                        value: controller.address.value,
+                      ),
+                      const SizedBox(height: 10),
+                      _buildInfoCard(
+                        icon: Icons.phone,
+                        title: 'Nomor HP',
+                        value: controller.phoneNumber.value,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+            
+              // Tombol Logout
+                Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      controller.logout();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: const Text(
+                      'Logout',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       }),
