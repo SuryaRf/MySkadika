@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 class TeacherManageExamsController extends GetxController {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
+  final uuid = Uuid(); // Inisialisasi UUID generator
   final exams = <Map<String, dynamic>>[].obs;
 
   // Menambahkan ujian baru
@@ -27,14 +28,21 @@ class TeacherManageExamsController extends GetxController {
     try {
       final docRef = firestore.collection('exams').doc(examCode);
       final exam = await docRef.get();
+
       if (exam.exists) {
         final questions =
             List<Map<String, dynamic>>.from(exam.data()?['questions'] ?? []);
+
+        // Buat questionId unik
+        String questionId = uuid.v4(); 
+
         questions.add({
+          "questionId": questionId, // Menyimpan ID unik untuk soal
           "questionText": questionText,
           "options": options,
           "correctAnswer": correctAnswer,
         });
+
         await docRef.update({"questions": questions});
         Get.snackbar("Success", "Question added successfully");
       } else {
@@ -60,28 +68,27 @@ class TeacherManageExamsController extends GetxController {
   }
 
   // Mengambil hasil siswa berdasarkan examCode
-final results = <Map<String, dynamic>>[].obs;
+  final results = <Map<String, dynamic>>[].obs;
 
-Future<void> fetchResults(String examCode) async {
-  try {
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('results')
-        .where('examId', isEqualTo: examCode)
-        .get();
+  Future<void> fetchResults(String examCode) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('results')
+          .where('examId', isEqualTo: examCode)
+          .get();
 
-    results.value = querySnapshot.docs
-        .map((doc) => {
-              "studentId": doc['studentId'],
-              "correctCount": doc['correctCount'],
-              "incorrectCount": doc['totalQuestions'] - doc['correctCount'],
-              "score": doc['score'],
-              "answers": doc['answers'], // Ambil jawaban siswa
-              "submittedAt": doc['submittedAt'], // Tanggal pengumpulan
-            })
-        .toList();
-  } catch (e) {
-    Get.snackbar("Error", "Failed to fetch results: $e");
+      results.value = querySnapshot.docs
+          .map((doc) => {
+                "studentId": doc['studentId'],
+                "correctCount": doc['correctCount'],
+                "incorrectCount": doc['totalQuestions'] - doc['correctCount'],
+                "score": doc['score'],
+                "answers": doc['answers'], // Ambil jawaban siswa
+                "submittedAt": doc['submittedAt'], // Tanggal pengumpulan
+              })
+          .toList();
+    } catch (e) {
+      Get.snackbar("Error", "Failed to fetch results: $e");
+    }
   }
-}
-
 }

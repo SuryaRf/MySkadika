@@ -1,10 +1,12 @@
+import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../controllers/teacher_manage_exams_controller.dart';
 
 class TeacherManageExamsView extends StatelessWidget {
-  final TeacherManageExamsController controller = Get.put(TeacherManageExamsController());
+  final TeacherManageExamsController controller =
+      Get.put(TeacherManageExamsController());
 
   final TextEditingController examTitleController = TextEditingController();
   final TextEditingController examCodeController = TextEditingController();
@@ -18,7 +20,10 @@ class TeacherManageExamsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: const Text('Manage Exams', style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Manage Exams',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -55,7 +60,10 @@ class TeacherManageExamsView extends StatelessWidget {
         onPressed: () {
           _showAddExamDialog(context);
         },
-        child: const Icon(Icons.add, color: Colors.white,),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -82,7 +90,8 @@ class TeacherManageExamsView extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                controller.addExam(examTitleController.text, examCodeController.text);
+                controller.addExam(
+                    examTitleController.text, examCodeController.text);
                 examTitleController.clear();
                 examCodeController.clear();
                 Navigator.of(context).pop();
@@ -97,6 +106,7 @@ class TeacherManageExamsView extends StatelessWidget {
 }
 
 class ExamDetailView extends StatelessWidget {
+
   final String examCode;
   final TeacherManageExamsController controller = Get.find();
 
@@ -113,8 +123,16 @@ class ExamDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back, color: Colors.white,)),
-        title: Text('Exam Code: $examCode', style: TextStyle(color: Colors.white),),
+        leading: IconButton(
+            onPressed: () => Get.back(),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
+        title: Text(
+          'Exam Code: $examCode',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.green,
       ),
       body: Container(
@@ -157,7 +175,10 @@ class ExamDetailView extends StatelessWidget {
                   onPressed: () {
                     _showAddQuestionDialog(context);
                   },
-                  child: const Text('Tambahkan Pertanyaan', style: TextStyle(color: Colors.green),),
+                  child: const Text(
+                    'Tambahkan Pertanyaan',
+                    style: TextStyle(color: Colors.green),
+                  ),
                 ),
               ],
             ),
@@ -168,6 +189,7 @@ class ExamDetailView extends StatelessWidget {
   }
 
   void _showAddQuestionDialog(BuildContext context) {
+
     showDialog(
       context: context,
       builder: (context) {
@@ -208,7 +230,7 @@ class ExamDetailView extends StatelessWidget {
                 correctAnswerController.clear();
                 Navigator.of(context).pop();
               },
-              child: const Text('Add', style: TextStyle(color: Colors.green),),
+              child: const Text('Add', style: TextStyle(color: Colors.green)),
             ),
           ],
         );
