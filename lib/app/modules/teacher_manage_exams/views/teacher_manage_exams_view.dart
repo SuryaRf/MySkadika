@@ -113,9 +113,12 @@ class ExamDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Exam Code: $examCode'),
+        leading: IconButton(onPressed: () => Get.back(), icon: Icon(Icons.arrow_back, color: Colors.white,)),
+        title: Text('Exam Code: $examCode', style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.green,
       ),
       body: Container(
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.green.shade100, Colors.white],
@@ -154,7 +157,7 @@ class ExamDetailView extends StatelessWidget {
                   onPressed: () {
                     _showAddQuestionDialog(context);
                   },
-                  child: const Text('Tambahkan Pertanyaan'),
+                  child: const Text('Tambahkan Pertanyaan', style: TextStyle(color: Colors.green),),
                 ),
               ],
             ),
@@ -205,7 +208,7 @@ class ExamDetailView extends StatelessWidget {
                 correctAnswerController.clear();
                 Navigator.of(context).pop();
               },
-              child: const Text('Add'),
+              child: const Text('Add', style: TextStyle(color: Colors.green),),
             ),
           ],
         );

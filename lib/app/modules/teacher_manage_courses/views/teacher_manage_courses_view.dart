@@ -16,8 +16,6 @@ class TeacherManageCoursesView extends GetView<TeacherManageCoursesController> {
     final TeacherHomeController controller = Get.put(TeacherHomeController());
     final DetailMapelController detailMapelController =
         Get.put(DetailMapelController());
-    var width = Get.width;
-    var height = Get.height;
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -36,6 +34,7 @@ class TeacherManageCoursesView extends GetView<TeacherManageCoursesController> {
               Get.to(AddNewMapel());
             }),
         body: Container(
+          height: Get.height,
            decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.green.shade100, Colors.white],
