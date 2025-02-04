@@ -81,16 +81,15 @@ class StudentExamsController extends GetxController {
       for (var question in exam['questions']) {
         final questionId = question['questionId'];
         final correctAnswer = question['correctAnswer'];
-        final selectedAnswer = selectedAnswers[questionId];
+        final selectedAnswer =
+            selectedAnswers[questionId] ?? ''; // Default empty string jika null
 
-        // Tambahkan jawaban siswa ke daftar
         studentAnswers.add({
           'questionId': questionId,
           'selectedAnswer': selectedAnswer,
           'correctAnswer': correctAnswer,
         });
 
-        // Hitung jawaban yang benar
         if (selectedAnswer == correctAnswer) {
           correctCount++;
         }
