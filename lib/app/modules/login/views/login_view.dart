@@ -84,7 +84,8 @@ class LoginView extends GetView<LoginController> {
         }
         return null;
       },
-      theme: LoginTheme(
+      
+     theme: LoginTheme(
         primaryColor: Colors.green,
         accentColor: Colors.green,
         pageColorLight: Colors.white,
@@ -99,8 +100,30 @@ class LoginView extends GetView<LoginController> {
           highlightColor: Colors.greenAccent,
           elevation: 5.0,
         ),
+        // Mengatur tampilan input field (text box)
+        inputTheme: InputDecorationTheme(
+          filled: true,
+          // ignore: deprecated_member_use
+          fillColor: Colors.green.withOpacity(0.3), // Background hijau
+          hintStyle: const TextStyle(color: Colors.black), // Hint text hitam
+          labelStyle: const TextStyle(color: Colors.black), // Label text hitam
+          enabledBorder: OutlineInputBorder(
+            // ignore: deprecated_member_use
+            borderSide:  BorderSide(color: Colors.green.withOpacity(0.3)), // Border hijau
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.black), // Border hitam saat fokus
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          border: OutlineInputBorder(
+            // ignore: deprecated_member_use
+            borderSide:  BorderSide(color: Colors.green.withOpacity(0.3)),
+            borderRadius: BorderRadius.circular(0.0),
+          ),
+        ),
       ),
-      hideForgotPasswordButton: true, // Menyembunyikan tombol Forgot Password
+      hideForgotPasswordButton: true,
     );
   }
 }
