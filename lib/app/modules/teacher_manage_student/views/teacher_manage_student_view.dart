@@ -53,11 +53,11 @@ class TeacherManageStudentView extends GetView<TeacherManageStudentController> {
 
         return Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.green.shade100, Colors.white],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+              gradient: LinearGradient(
+                colors: [Colors.green.shade100, Colors.white],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
           ),
           child: ListView.builder(
             padding: const EdgeInsets.all(16),

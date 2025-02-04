@@ -20,30 +20,38 @@ class TeacherManageExamsView extends StatelessWidget {
         backgroundColor: Colors.green,
         title: const Text('Manage Exams', style: TextStyle(color: Colors.white),),
       ),
-      body: Obx(() {
-        if (controller.exams.isEmpty) {
-          return const Center(
-            child: Text('No exams available'),
-          );
-        }
-        return ListView.builder(
-          itemCount: controller.exams.length,
-          itemBuilder: (context, index) {
-            final exam = controller.exams[index];
-            return ListTile(
-              title: Text(exam['title']),
-              subtitle: Text('Code: ${exam['code']}'),
-              trailing: const Icon(Icons.arrow_forward),
-              onTap: () {
-                Get.to(() => ExamDetailView(examCode: exam['code']));
-              },
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.green.shade100, Colors.white],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Obx(() {
+          if (controller.exams.isEmpty) {
+            return const Center(
+              child: Text('No exams available'),
             );
-          },
-        );
-      }),
+          }
+          return ListView.builder(
+            itemCount: controller.exams.length,
+            itemBuilder: (context, index) {
+              final exam = controller.exams[index];
+              return ListTile(
+                title: Text(exam['title']),
+                subtitle: Text('Code: ${exam['code']}'),
+                trailing: const Icon(Icons.arrow_forward),
+                onTap: () {
+                  Get.to(() => ExamDetailView(examCode: exam['code']));
+                },
+              );
+            },
+          );
+        }),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-
         onPressed: () {
           _showAddExamDialog(context);
         },
@@ -107,40 +115,49 @@ class ExamDetailView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Exam Code: $examCode'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Results:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              Obx(() {
-                if (controller.results.isEmpty) {
-                  return const Text('No students have completed this exam.');
-                }
-                return Column(
-                  children: controller.results.map((result) {
-                    return ListTile(
-                      title: Text('Student ID: ${result['studentId']}'),
-                      subtitle: Text(
-                          'Correct: ${result['correctCount']} | Incorrect: ${result['incorrectCount']} | Score: ${result['score']} |\nDate: ${DateFormat('yyyy-MM-dd HH:mm:ss').format(result['submittedAt'].toDate())}'),
-                    );
-                  }).toList(),
-                );
-              }),
-              const Divider(),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  _showAddQuestionDialog(context);
-                },
-                child: const Text('Tambahkan Pertanyaan'),
-              ),
-            ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.green.shade100, Colors.white],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Results:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Obx(() {
+                  if (controller.results.isEmpty) {
+                    return const Text('No students have completed this exam.');
+                  }
+                  return Column(
+                    children: controller.results.map((result) {
+                      return ListTile(
+                        title: Text('Student ID: ${result['studentId']}'),
+                        subtitle: Text(
+                            'Correct: ${result['correctCount']} | Incorrect: ${result['incorrectCount']} | Score: ${result['score']} |\nDate: ${DateFormat('yyyy-MM-dd HH:mm:ss').format(result['submittedAt'].toDate())}'),
+                      );
+                    }).toList(),
+                  );
+                }),
+                const Divider(),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    _showAddQuestionDialog(context);
+                  },
+                  child: const Text('Tambahkan Pertanyaan'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
