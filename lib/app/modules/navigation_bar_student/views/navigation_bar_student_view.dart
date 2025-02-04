@@ -7,7 +7,7 @@ import 'package:myskadika/app/modules/student_exams/views/student_exams_view.dar
 import 'package:myskadika/app/modules/student_home/views/student_home_view.dart';
 import 'package:myskadika/app/modules/student_mapel/views/student_mapel_view.dart';
 import 'package:myskadika/app/modules/student_profile/views/student_profile_view.dart';
-import 'package:myskadika/app/modules/student_task/views/student_task_view.dart';
+// import 'package:myskadika/app/modules/student_task/views/student_task_view.dart';
 
 class NavigationBarStudentView extends StatefulWidget {
   
@@ -34,7 +34,7 @@ class _NavigationBarStudentViewState extends State<NavigationBarStudentView> {
     super.initState();
     items = [
       NavModel(page: const StudentHomeView(), navKey: homeNavKey),
-      NavModel(page:  StudentTaskView(), navKey: taskNavKey),
+      // NavModel(page:  StudentTaskView(), navKey: taskNavKey),
       NavModel(page:  StudentExamsView(), navKey: examsNavKey),
       NavModel(page:  StudentMapelView(), navKey: mapelNavKey),
       NavModel(page: const StudentProfileView(), navKey: profileNavKey),
